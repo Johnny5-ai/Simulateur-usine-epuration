@@ -57,6 +57,7 @@ export function renderControls(container, stageKey, settings, onChange) {
       let numericValue = Number(input.value);
       if (bounds) {
         numericValue = Math.min(bounds.max, Math.max(bounds.min, numericValue));
+        input.value = numericValue;
       }
       onChange(stageKey, { [field]: numericValue });
     });
