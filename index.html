@@ -3,9 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <title>Simulateur d'usine d'eau potable</title>
+  <link rel="stylesheet" href="./src/style.css" />
 </head>
 <body>
-  <h1>Simulateur d'usine d'eau potable</h1>
-  <p>En construction.</p>
+  <header>
+    <h1>Simulateur d'usine d'eau potable</h1>
+    <div id="clock">
+      <span id="clock-display">0h00</span>
+      <button id="speed-1">×1</button>
+      <button id="speed-10">×10</button>
+      <button id="speed-60">×60</button>
+      <button id="pause">Pause</button>
+    </div>
+  </header>
+
+  <select id="scenario-select">
+    <option value="journee-normale">Journée normale</option>
+    <option value="pluie-et-crue">Pluie et crue</option>
+    <option value="panne-equipement">Panne d'équipement</option>
+  </select>
+
+  <div id="schematic"></div>
+  <div id="controls"></div>
+  <div id="readouts"></div>
+  <ul id="event-log"></ul>
+
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>
