@@ -12,6 +12,7 @@ import {
 const TICK_MINUTES = 1;
 const TICK_INTERVAL_MS = 500;
 const DEFAULT_PUMP_FLOW = 500;
+const DEFAULT_PUMP_PRESSURE = 6;
 
 const simulation = createSimulation();
 let scenarioEngine = createScenarioEngine([]);
@@ -47,10 +48,12 @@ function applyScenarioEvent(event) {
       break;
     case 'panne_pompe_puits':
       simulation.updateSettings('puits', { pumpFlow: 0 });
+      simulation.updateSettings('reserve', { pumpPressure: 0 });
       logEvent(eventLogEl, 'Panne de la pompe du puits');
       break;
     case 'panne_resolue':
       simulation.updateSettings('puits', { pumpFlow: DEFAULT_PUMP_FLOW });
+      simulation.updateSettings('reserve', { pumpPressure: DEFAULT_PUMP_PRESSURE });
       logEvent(eventLogEl, 'Panne résolue, pompe redémarrée');
       break;
     case 'colmatage_accelere':
