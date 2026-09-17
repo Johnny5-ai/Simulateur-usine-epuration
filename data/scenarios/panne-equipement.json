@@ -1,0 +1,8 @@
+{
+  "name": "Panne d'équipement",
+  "events": [
+    { "t": 60, "type": "panne_pompe_puits", "payload": {} },
+    { "t": 75, "type": "panne_resolue", "payload": {} },
+    { "t": 150, "type": "colmatage_accelere", "payload": { "amountKPa": 100 } }
+  ]
+}

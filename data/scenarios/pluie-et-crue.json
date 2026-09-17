@@ -1,0 +1,8 @@
+{
+  "name": "Pluie et crue",
+  "events": [
+    { "t": 30, "type": "turbidite_brute", "payload": { "valeur": 25 } },
+    { "t": 90, "type": "turbidite_brute", "payload": { "valeur": 40 } },
+    { "t": 240, "type": "turbidite_brute", "payload": { "valeur": 8 } }
+  ]
+}
