@@ -17,7 +17,7 @@ export function createReserveStage() {
 
       water.turbidity = currentTurbidity;
       water.chlorineResidual = currentChlorine;
-      water.flow = settings.pumpPressure * PUMP_COEFFICIENT;
+      water.flow = Math.min(waterIn.flow, settings.pumpPressure * PUMP_COEFFICIENT);
       return water;
     },
   };

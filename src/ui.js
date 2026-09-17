@@ -28,6 +28,15 @@ export function setActiveStage(container, stageKey) {
   });
 }
 
+const FIELD_BOUNDS = {
+  pumpFlow: { min: 0, max: 1000 },
+  dose: { min: 0, max: 10 },
+  alunDose: { min: 0, max: 100 },
+  polymerDose: { min: 0, max: 5 },
+  filterSpeed: { min: 1, max: 20 },
+  pumpPressure: { min: 0, max: 12 },
+};
+
 export function renderControls(container, stageKey, settings, onChange) {
   container.innerHTML = '';
   if (!stageKey || !settings[stageKey]) return;
@@ -38,9 +47,18 @@ export function renderControls(container, stageKey, settings, onChange) {
     const input = document.createElement('input');
     input.type = 'number';
     input.step = '0.1';
+    const bounds = FIELD_BOUNDS[field];
+    if (bounds) {
+      input.min = bounds.min;
+      input.max = bounds.max;
+    }
     input.value = value;
     input.addEventListener('input', () => {
-      onChange(stageKey, { [field]: Number(input.value) });
+      let numericValue = Number(input.value);
+      if (bounds) {
+        numericValue = Math.min(bounds.max, Math.max(bounds.min, numericValue));
+      }
+      onChange(stageKey, { [field]: numericValue });
     });
     label.appendChild(input);
     container.appendChild(label);
@@ -59,8 +77,8 @@ export function renderReadouts(container, water, filtrationHeadloss, chlorationC
 
   const rows = [
     { label: 'Débit', value: water.flow.toFixed(1), unit: 'L/min' },
-    { label: 'Turbidité', value: water.turbidity.toFixed(2), unit: 'NTU', threshold: THRESHOLDS.turbidity },
-    { label: 'Chlore résiduel', value: water.chlorineResidual.toFixed(2), unit: 'mg/L', threshold: THRESHOLDS.chlorineResidual },
+    { label: 'Turbidité', value: water.turbidity.toFixed(2), rawValue: water.turbidity, unit: 'NTU', threshold: THRESHOLDS.turbidity },
+    { label: 'Chlore résiduel', value: water.chlorineResidual.toFixed(2), rawValue: water.chlorineResidual, unit: 'mg/L', threshold: THRESHOLDS.chlorineResidual },
     { label: 'Perte de charge filtre', value: filtrationHeadloss.toFixed(0), unit: 'kPa' },
     { label: 'CT chloration', value: chlorationCT.toFixed(1), unit: 'mg·min/L' },
   ];
@@ -69,7 +87,7 @@ export function renderReadouts(container, water, filtrationHeadloss, chlorationC
     const div = document.createElement('div');
     div.className = 'readout';
     if (row.threshold) {
-      div.classList.add(conformity(Number(row.value), row.threshold));
+      div.classList.add(conformity(row.rawValue, row.threshold));
     }
     div.textContent = `${row.label} : ${row.value} ${row.unit}`;
     container.appendChild(div);
