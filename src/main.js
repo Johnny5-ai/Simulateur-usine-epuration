@@ -1,5 +1,6 @@
 import { createSimulation } from './simulation.js';
 import { createScenarioEngine } from './scenarios.js';
+import { SCENARIO_EVENTS } from './events.js';
 import {
   renderSchematic,
   setActiveStage,
@@ -11,7 +12,6 @@ import {
 
 const TICK_MINUTES = 1;
 const TICK_INTERVAL_MS = 500;
-const DEFAULT_PUMP_FLOW = 500;
 
 const simulation = createSimulation();
 let scenarioEngine = createScenarioEngine([]);
@@ -40,26 +40,13 @@ function handleSettingsChange(stageKey, patch) {
 }
 
 function applyScenarioEvent(event) {
-  switch (event.type) {
-    case 'turbidite_brute':
-      simulation.setRawWater({ turbidity: event.payload.valeur });
-      logEvent(eventLogEl, `Turbidité brute changée à ${event.payload.valeur} NTU`);
-      break;
-    case 'panne_pompe_puits':
-      simulation.updateSettings('puits', { pumpFlow: 0 });
-      logEvent(eventLogEl, 'Panne de la pompe du puits');
-      break;
-    case 'panne_resolue':
-      simulation.updateSettings('puits', { pumpFlow: DEFAULT_PUMP_FLOW });
-      logEvent(eventLogEl, 'Panne résolue, pompe redémarrée');
-      break;
-    case 'colmatage_accelere':
-      simulation.stages.filtration.addHeadloss(event.payload.amountKPa);
-      logEvent(eventLogEl, `Colmatage accéléré : +${event.payload.amountKPa} kPa de perte de charge`);
-      break;
-    default:
-      logEvent(eventLogEl, `Événement inconnu : ${event.type}`);
+  const handler = SCENARIO_EVENTS[event.type];
+  if (!handler) {
+    logEvent(eventLogEl, `Événement inconnu : ${event.type}`);
+    return;
   }
+  handler.apply(simulation, event.payload);
+  logEvent(eventLogEl, handler.message(event.payload));
 }
 
 async function loadScenario(name) {
@@ -70,19 +57,19 @@ async function loadScenario(name) {
   logEvent(eventLogEl, `Scénario chargé : ${scenario.name}`);
 }
 
+// L'accélération multiplie le nombre de pas d'une minute, sans allonger le pas
+// lui-même : un pas de 60 min écraserait les dynamiques courtes (colmatage,
+// filtration) et ferait démarrer et finir un événement de 15 min dans le même pas.
 function tick() {
   if (paused) return;
-  const dt = TICK_MINUTES * speedMultiplier;
-  const water = simulation.tick(dt);
 
-  scenarioEngine.collectDueEvents(simulation.getElapsedMinutes()).forEach(applyScenarioEvent);
+  let water;
+  for (let step = 0; step < speedMultiplier; step += 1) {
+    scenarioEngine.collectDueEvents(simulation.getElapsedMinutes()).forEach(applyScenarioEvent);
+    water = simulation.tick(TICK_MINUTES);
+  }
 
-  renderReadouts(
-    readoutsEl,
-    water,
-    simulation.stages.filtration.getHeadloss(),
-    simulation.stages.chloration.getCT(),
-  );
+  renderReadouts(readoutsEl, water, simulation.getReadings());
   updateClock(clockEl, simulation.getElapsedMinutes());
 }
 

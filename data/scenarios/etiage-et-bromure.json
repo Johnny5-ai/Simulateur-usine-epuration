@@ -1,0 +1,12 @@
+{
+  "name": "Étiage et bromure",
+  "events": [
+    { "t": 45, "type": "bromure_brut", "payload": { "valeur": 150 } },
+    { "t": 45, "type": "cot_brut", "payload": { "valeur": 8 } },
+    { "t": 120, "type": "bromure_brut", "payload": { "valeur": 300 } },
+    { "t": 120, "type": "cot_brut", "payload": { "valeur": 14 } },
+    { "t": 600, "type": "cot_brut", "payload": { "valeur": 12 } },
+    { "t": 900, "type": "bromure_brut", "payload": { "valeur": 120 } },
+    { "t": 900, "type": "cot_brut", "payload": { "valeur": 6 } }
+  ]
+}

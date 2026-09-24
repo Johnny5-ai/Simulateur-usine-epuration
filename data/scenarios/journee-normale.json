@@ -1,4 +1,1 @@
-{
-  "name": "Journée normale",
-  "events": []
-}
+{"name":"Journée normale","events":[{"t":60,"type":"turbidite_brute","payload":{"valeur":3}},{"t":60,"type":"cot_brut","payload":{"valeur":4.5}},{"t":180,"type":"turbidite_brute","payload":{"valeur":2.5}},{"t":180,"type":"cot_brut","payload":{"valeur":4}},{"t":300,"type":"turbidite_brute","payload":{"valeur":1.5}},{"t":300,"type":"cot_brut","payload":{"valeur":3.5}}]}

@@ -1,0 +1,13 @@
+{
+  "name": "Froid d'hiver",
+  "events": [
+    { "t": 30, "type": "temperature_brute", "payload": { "valeur": 6 } },
+    { "t": 30, "type": "turbidite_brute", "payload": { "valeur": 5 } },
+    { "t": 150, "type": "temperature_brute", "payload": { "valeur": 3 } },
+    { "t": 150, "type": "turbidite_brute", "payload": { "valeur": 9 } },
+    { "t": 300, "type": "temperature_brute", "payload": { "valeur": 1 } },
+    { "t": 300, "type": "turbidite_brute", "payload": { "valeur": 12 } },
+    { "t": 960, "type": "temperature_brute", "payload": { "valeur": 2 } },
+    { "t": 960, "type": "turbidite_brute", "payload": { "valeur": 7 } }
+  ]
+}

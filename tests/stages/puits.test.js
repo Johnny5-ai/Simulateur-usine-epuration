@@ -14,7 +14,7 @@ describe('PuitsStage', () => {
   });
 
   it('provides sensible defaults', () => {
-    expect(defaultRawWater()).toEqual({ turbidity: 2, pH: 7.2, temperature: 12 });
+    expect(defaultRawWater()).toEqual({ turbidity: 2, pH: 7.2, temperature: 12, alkalinity: 120, toc: 4, calcium: 120, bromide: 60 });
     expect(defaultPuitsSettings()).toEqual({ pumpFlow: 500 });
   });
 });

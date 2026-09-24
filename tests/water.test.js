@@ -9,6 +9,13 @@ describe('createWater', () => {
       turbidity: 0,
       pH: 7,
       temperature: 15,
+      alkalinity: 120,
+      toc: 4,
+      calcium: 120,
+      bromide: 60,
+      bromate: 0,
+      precursorFraction: 1,
+      disinfectionCredit: 0,
       ozoneResidual: 0,
       chlorineResidual: 0,
     });

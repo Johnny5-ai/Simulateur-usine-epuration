@@ -3,6 +3,10 @@
   "events": [
     { "t": 60, "type": "panne_pompe_puits", "payload": {} },
     { "t": 75, "type": "panne_resolue", "payload": {} },
-    { "t": 150, "type": "colmatage_accelere", "payload": { "amountKPa": 100 } }
+    { "t": 150, "type": "colmatage_accelere", "payload": { "metres": 1 } },
+    { "t": 420, "type": "panne_pompe_puits", "payload": {} },
+    { "t": 600, "type": "panne_resolue", "payload": {} },
+    { "t": 1020, "type": "demande_reseau", "payload": { "facteur": 1.25 } },
+    { "t": 1260, "type": "demande_reseau", "payload": { "facteur": 1 } }
   ]
 }
